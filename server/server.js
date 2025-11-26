@@ -23,6 +23,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/resources", require("./routes/resourceRoutes"));
 
+<<<<<<< HEAD
 // Test Route (to confirm server works)
 app.get("/", (req, res) => {
   res.send("Backend is running successfully!");
@@ -30,4 +31,10 @@ app.get("/", (req, res) => {
 
 // Server Listen
 app.listen(5000, () => console.log("Server running on port 5000"));
+=======
+// start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+>>>>>>> 90b15c7f2bc1240863916509697b6082f2052f92
 
