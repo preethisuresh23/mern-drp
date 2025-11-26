@@ -6,22 +6,28 @@ const path = require("path");
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// connect to MongoDB
+// MongoDB Connection
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URI)   // <-- IMPORTANT fixed variable
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-// serve uploaded files (ONLY ONCE)
+// Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// routes
+// Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/resources", require("./routes/resourceRoutes"));
 
-// start server
+// Test Route (to confirm server works)
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully!");
+});
+
+// Server Listen
 app.listen(5000, () => console.log("Server running on port 5000"));
 
