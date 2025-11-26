@@ -6,24 +6,31 @@ const path = require("path");
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI)   // <-- IMPORTANT fixed variable
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-// serve uploaded files (ONLY ONCE)
+// Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// routes
+// Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/resources", require("./routes/resourceRoutes"));
-app.get("/test", (req, res) => {
-  res.send("Backend is working!");
+
+// Test Route (to confirm server works)
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully!");
 });
-// start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Server Listen
+const PORT = process.env.PORT || 5000;   // <-- IMPORTANT for Railway
+app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+);
 
